@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Course;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -24,13 +25,13 @@ class CompleteCourse extends Component
 
     public function completeLesson()
     {
-        // if(count($this->answers) != $this->questions)
+        $course_id = $this->lesson->directory->course_id;
+
         $indexedAnswers = [];
         $answers = $this->questions->map(function ($q) {
             return $q->answers;
         });
         $answers->map(function ($a) use (&$indexedAnswers) {
-            // $indexedAnswers[$a->id] = $a->correct;
             $a->map(function ($a) use (&$indexedAnswers) {
                 $indexedAnswers[$a->id] = $a->correct;
             });
@@ -56,6 +57,14 @@ class CompleteCourse extends Component
                 ]);
             }
             session()->flash('success', 'لقد اجتزت هذا الدرس بنجاح');
+            $courseLessons = Course::find($course_id)->lessons()->pluck('lessons.id');
+            $numOfCourseLessons = $courseLessons->count();
+            $completed_course_lessons_count = DB::table('lesson_user')->where('user_id' , auth()->user()->id)->whereIn('lesson_id' , $courseLessons)->count();
+            if($numOfCourseLessons == $completed_course_lessons_count){
+                DB::table('course_user')->where('user_id', auth()->user()->id)->where('course_id' , $course_id)->update([
+                    'is_completed' => true
+                ]);
+            }
         } else {
             session()->flash('failed', 'للأسف الإجابات غير دقيقة كفاية تحتاج لإعادة المحاولة');
         }

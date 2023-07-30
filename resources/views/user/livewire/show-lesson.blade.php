@@ -21,11 +21,17 @@
                         autoplay: false,
                         preload: 'auto'
                     });
-                    
                 </script>
             </div>
             <div id="mark-as-read-div">
                 <div class="subject-action complete-task read-action-dev clearfix mt-3">
+                    @isset($lesson->attachment)
+                        <div style="text-align: right" class="mb-3">
+                            <h3>المرفق الخاص بالدرس</h3>
+                            <a target="_blank"
+                                href="{{ route('get.attachment', $lesson) }}">{{ $lesson->attachment->name }}</a>
+                        </div>
+                    @endisset
                     <livewire:complete-course :lesson="$lesson" />
 
 

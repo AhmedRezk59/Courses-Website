@@ -120,4 +120,33 @@ class FileUploadController extends Controller
             path: 'tmp/' . now()->timestamp . '-' . Str::random(20)
         );
     }
+
+    public function upload_attachment(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'attachment' => ['required', 'mimes:pptx,pdf']
+            ]
+        );
+        if ($validator->fails()) {
+            return response($validator->errors(), 422);
+        }
+        $files = $request->allFiles();
+        if (empty($files)) {
+            abort(422, 'No files were uploaded.');
+        }
+
+        $requestKey = array_key_first($files);
+
+
+        $file = is_array($request->input($requestKey))
+            ? $request->file($requestKey)[0]
+            : $request->file($requestKey);
+
+        return $file->storeAs(
+            path: 'tmp/' . now()->timestamp . '-' . Str::random(20),
+            name: $file->getClientOriginalName()
+        );
+    }
 }

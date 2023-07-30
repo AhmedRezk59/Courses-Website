@@ -5,7 +5,7 @@
      <div id="course_show">
          @if (\Carbon\Carbon::now()->gt($course->end_date))
              <div id="flash_errors" class="field_with_errors">
-                 انتهت المادة في {{$course->end_date}}
+                 انتهت المادة في {{ $course->end_date }}
              </div>
          @endif
 
@@ -113,7 +113,14 @@
                          {!! $course->outputs !!}
                      </div>
                  </div>
-
+                 <div class="container-fluid subject-content-info info-item">
+                     <div class="item-title">
+                         <h5>المراجع</h5>
+                     </div>
+                     <div class="row-fluid">
+                         {!! $course->references !!}
+                     </div>
+                 </div>
 
              </div>
          </div>

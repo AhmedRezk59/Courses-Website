@@ -10,6 +10,11 @@
                 <th style="width: 10px">#</th>
                 <th>الإسم</th>
                 <th>البريد الإلكترونى</th>
+                <th>رقم الهاتف</th>
+                <th>العملة المفضلة</th>
+                <th>من يمكنه رؤية الصفحة الشخصية</th>
+                <th>استقبال التنويهات</th>
+                <th>استقبال ردود الأعضاء على البريد</th>
                 <th>تأكيد البريد</th>
             </tr>
         </thead>
@@ -19,6 +24,11 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
+                    <td>{{ $user->phone_number }}</td>
+                    <td>{{ $user->currency->code ?? config('services.payments.default-currency') }}</td>
+                    <td>{{ $user->who_can_view ? 'الكل' : 'المحاضرين فقط' }}</td>
+                    <td>{{ $user->inquiry_mailable ? 'نعم' : 'لا' }}</td>
+                    <td>{{ $user->comments_mailable ? 'نعم' : 'لا' }}</td>
                     <td><span @class([
                         'badge' => true,
                         'bg-danger' => !$user->hasVerifiedEmail(),
@@ -28,7 +38,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td class="font-bold  text-center" colspan="5">لايوجد بيانات</td>
+                    <td class="font-bold  text-center" colspan="99">لايوجد بيانات</td>
                 </tr>
             @endforelse
         </tbody>

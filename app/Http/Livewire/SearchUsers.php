@@ -10,7 +10,7 @@ class SearchUsers extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $search ='';
+    public $search = '';
 
     public function updatedSearch()
     {
@@ -19,10 +19,13 @@ class SearchUsers extends Component
     public function render()
     {
         return view('admin.livewire.search-users', [
-            'users' => User::when($this->search , function($q){
-                $q->where('email' , 'like' , "{$this->search}%")
-                    ->orWhere('name', 'like', "{$this->search}%");
-            })->paginate(10)
+            'users' => User::when($this->search, function ($q) {
+                $q->where('email', 'like', "{$this->search}%")
+                    ->orWhere('first_name', 'like', "{$this->search}%")
+                    ->orWhere('last_name', 'like', "{$this->search}%");
+            })
+                ->with('currency')
+                ->paginate(10)
         ]);
     }
 }

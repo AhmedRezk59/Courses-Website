@@ -32,7 +32,6 @@
               $.get(url, function(data) {
                   console.log(url)
                   if (url == '#' || url == 'javascript:void(0)') {
-                      $('section.center').html(data);
                       event.preventDefault();
 
                   } else {

@@ -26,10 +26,8 @@ class UpdateLessonRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'video' => ['sometimes', 'nullable', 'string'],
-            'questions' => ['required', 'array', 'min:1'],
-            'questions.*.body' => ['required', 'string', 'max:255'],
-            'questions.*.answers' => ['required', 'array', 'min:2'],
-            'questions.*.answers.*.body' => ['required', 'string', 'max:255'],
+            'attachment' => ['sometimes', 'nullable', 'string'],
+            
         ];
     }
 
@@ -38,16 +36,8 @@ class UpdateLessonRequest extends FormRequest
         return [
             'name' => 'الإسم',
             'video' => 'ملف الفيديو',
-            'answers' => 'الإجابات',
-            'questions' => 'الأسئلة',
-            'questions.*.body' => 'عنوان السؤال',
-            'questions.*.answers.*.body' => 'الإجابة',
+            'attachment' => 'المرفق'
         ];
     }
-    public function messages()
-    {
-        return [
-            'questions.*.answers' => 'يجب أن يكون إجابتان لكل سؤال على الأقل',
-        ];
-    }
+    
 }

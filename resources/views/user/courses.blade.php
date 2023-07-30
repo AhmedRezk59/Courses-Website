@@ -23,6 +23,7 @@
     <link rel="stylesheet" media="all"
         href="{{ asset('assets/application-b6d07872d2ff763651a4ccec6b8667d8e06bac3fd96f1396300197749ed51f39.css') }}">
     <!--[if IE 8]><link rel="stylesheet" media="all" href="/assets/ie-139291a5bb4ab2173e95e9b5bc0d5fb882d845cdaf4ce46db9aff762d93c5bde.css" /><![endif]-->
+    <link rel="icon" type="image/x-icon" href="{{ asset('website-logo.jpeg') }}">
 
     @livewireStyles
     <!--[if lte IE 7]><script src="/assets/lte-ie7-ceb763da1bde4df6f6c0af5900157978077df0765e1cd426dd0d499f75bc0e6e.js"></script><![endif]-->
@@ -39,14 +40,15 @@
 
 <body class="rtl pc">
 
+    @php
+        $settings = DB::table('website_settings')->select('courses_cover')->first();
+    @endphp
 
-    <div class="loader" id="loader" style="display:none;"></div>
-    <img class="white-loading"
-        src="{{ asset('assets/loading-white-13bd94b0a31914938eac3711a14afde4ef145e6d389f968fdced5e00e416c424.gif') }}">
     <div class="container-fluid">
         <div class="row">
             <div class="subject-cover">
-                <div class="cover-img"></div>
+                <div class="cover-img" style="background-image: url({{isset($settings->courses_cover) ? asset('images/' . $settings->courses_cover) : 'https://arabic-mooc-staging.s3.amazonaws.com/uploads/rwaq_image_params/sidebar.jpeg'}})"></div>
+                
                 <div class="page-header">
                     <div class="header-inner">
                         <div class="clearfix">

@@ -11,6 +11,7 @@
     <link rel="stylesheet" media="all"
         href="/assets/application-b6d07872d2ff763651a4ccec6b8667d8e06bac3fd96f1396300197749ed51f39.css">
     <!--[if IE 8]><link rel="stylesheet" media="all" href="/assets/ie-139291a5bb4ab2173e95e9b5bc0d5fb882d845cdaf4ce46db9aff762d93c5bde.css" /><![endif]-->
+    <link rel="icon" type="image/x-icon" href="{{ asset('website-logo.jpeg') }}">
 
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
@@ -57,13 +58,13 @@
                     <div class="cover-info-content">
                         <div class="user-small user_cover">
                             <a class="user-link_cover" href="/users/rezk59315-20170918232832">
-                                @if (!isset(auth()->user()->avatar))
+                                @if (!isset($instructor->avatar))
                                     <img src="{{ asset('default-logo.png') }}" style="display: inline;">
                                 @else
-                                    <img src="{{ route('get.avatar', auth()->user()) }}" style="display: inline;">
+                                    <img src="{{ route('instructor.avatar', $instructor) }}" style="display: inline;">
                                 @endif
                                 <span>{{ $instructor->name }}</span>
-                            </a> <span class="subject-date text-white"> </span>
+                            </a> 
                         </div>
                     </div>
                 </div>
@@ -96,7 +97,7 @@
                                         <div class="row">
                                             <div class="col col-lg-4 instructor-image clearfix">
                                                 <img class="img-fluid w-50 mx-5 profile-img"
-                                                    src="{{ isset($instructor->avatar) && $instructor->avatar != '' ? route('instructor.get.thumbinal', $instructor->id) : asset('default-logo.png') }}"
+                                                    src="{{ isset($instructor->avatar) && $instructor->avatar != '' ? route('instructor.avatar', $instructor->id) : asset('default-logo.png') }}"
                                                     style="display: inline;">
 
                                             </div>
@@ -124,7 +125,7 @@
                                                     <h4 class="courses-list-card-header"> <a class="text-white f3"
                                                             href="{{ route('courses.show', $course) }}">{{ $course->name }}</a>
                                                     </h4>
-                                                    <span class="course-cat">علوم الحاسب والرّقمنة</span>
+                                                    <span class="course-cat">{{$course->department->name}}</span>
                                                     <div class="course-pic-container">
                                                         <img class="img-fluid w-100"
                                                             src="{{ route('user.get.thmbinal', $course) }}"
@@ -138,7 +139,7 @@
                                                             <a class="lecturer-photo col-md-4 p-0"
                                                                 href="{{ route('instructor.page', $instructor->id) }}">
                                                                 <img class="lecturer-dp img-fluid mx-2"
-                                                                    src="{{ isset($instructor->avatar) && $instructor->avatar != '' ? route('instructor.get.thumbinal', $instructor->id) : asset('default-logo.png') }}"
+                                                                    src="{{ isset($instructor->avatar) && $instructor->avatar != '' ? route('instructor.avatar', $instructor->id) : asset('default-logo.png') }}"
                                                                     style="display: inline;">
                                                             </a>
                                                             <div class="lecturer-data col-md-8 ">

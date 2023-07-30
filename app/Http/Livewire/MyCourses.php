@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Enums\CourseStatus;
 use App\Models\Course;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -35,7 +36,8 @@ class MyCourses extends Component
                         $q->where('start_date', '>', $now);
                     }
                     if($this->status == 'ended'){
-                        $q->where('is_complated' , true);
+                        $finished_courses_id = DB::table('course_user')->where('user_id' , auth()->user()->id)->where('is_completed' , true)->pluck('course_id');
+                        $q->whereIn('courses.id' , $finished_courses_id);
                     }
                 })
                 ->with(['department', 'instructor:name,id'])

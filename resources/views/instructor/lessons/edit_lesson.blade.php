@@ -35,6 +35,21 @@
                     </div>
                 </div>
             </div>
+            <div class="row card mx-3">
+                <div class=" col-12">
+                    <label for="file">ملف pdf او pptx الخاص بالدرس</label>
+                    <input type="file" name="attachment" />
+                </div>
+                @if ($errors->get('attachment'))
+                    <ul style="position: absolute;left: 50%;transform: translateX(-50%)"
+                        class="text-sm text-red-600 space-y-1 mt-2 text-danger text-bold" dir="rtl">
+                        @foreach ((array) $errors->get('attachment') as $message)
+                            <li>{{ $message }}</li>
+                        @endforeach
+                    </ul>
+                @endif
+
+            </div>
             <div class="row d-flex justify-content-center">
                 <button type="submit" class="btn-lg btn-inline-block btn-primary bg-primary text-white mt-2">تعديل
                     الدرس</button>
@@ -46,6 +61,16 @@
             FilePond.create(document.querySelector('input[name="video"]'), {
                 server: {
                     url: '{{ route('instructor.course.upload.lesson') }}',
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ @csrf_token() }}",
+                    },
+                    chunkUploads: true,
+                    chunkSize: 2000000
+                },
+            });
+            FilePond.create(document.querySelector('input[name="attachment"]'), {
+                server: {
+                    url: '{{ route('instructor.lesson.upload.attachment') }}',
                     headers: {
                         'X-CSRF-TOKEN': "{{ @csrf_token() }}",
                     },

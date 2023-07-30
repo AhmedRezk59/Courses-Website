@@ -24,4 +24,8 @@ class Lesson extends Model
     {
         return $this->hasMany(Question::class);
     }
+    public function attachment()
+    {
+        return $this->hasOne(Attachment::class);
+    }
 }

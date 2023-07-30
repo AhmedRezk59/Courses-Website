@@ -11,6 +11,7 @@ use App\Models\Lesson;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
+use Illuminate\Support\Facades\DB;
 
 class LessonController extends Controller
 {
@@ -33,24 +34,48 @@ class LessonController extends Controller
      */
     public function store(CreateLessonRequest $request, Course $course, Directory $directory)
     {
-        abort_if(auth()->guard('instructor')->user()->id != $course->instructor_id,403);
-        
+        abort_if(auth()->guard('instructor')->user()->id != $course->instructor_id, 403);
+        $lessonVideoInfo = pathinfo(Storage::path($request->validated()['video']));
+
         $videoFileLocation = Storage::putFile(
             path: 'courses/' . $course->id . '/' . $directory->id,
             file: new File(Storage::path($request->validated()['video']))
         );
-        $lesson = $directory->lessons()->create([...$request->validated(), 'video' => ltrim($videoFileLocation, "courses/{$course->id}/ $directory->id/"),]);
+        Storage::deleteDirectory(rtrim($request->validated()['video'], $lessonVideoInfo['basename']) . DIRECTORY_SEPARATOR);
+
+
+        $lesson = $directory->lessons()->create([
+            ...$request->validated(),
+            'video' => ltrim($videoFileLocation, "courses/{$course->id}/ $directory->id/"),
+        ]);
+
+        if (isset($request->attachment)) {
+            $attachmentInfo = pathinfo(Storage::path($request->validated()['attachment']));
+            $attachmentFileLocation = Storage::putFile(
+                path: 'courses/' . $course->id . '/' . $directory->id,
+                file: new File(Storage::path($request->validated()['attachment'])),
+            );
+            $lesson->attachment()->create([
+                'name' => $attachmentInfo['basename'],
+                'path' => ltrim($attachmentFileLocation, "courses/{$course->id}/ $directory->id/")
+            ]);
+            Storage::deleteDirectory(rtrim($request->validated()['attachment'], $attachmentInfo['basename'] . DIRECTORY_SEPARATOR));
+        }
+
         foreach ($request->questions as $q) {
             $question = $lesson->questions()->create([
                 'body' => $q['body']
             ]);
-            foreach($q['answers'] as $a){
+            foreach ($q['answers'] as $a) {
                 $question->answers()->create([
                     'body' => $a['body'],
                     'correct' => isset($a['correct']) && $a['correct'] == 1 ? true : false
                 ]);
             }
         }
+        DB::table('course_user')->where('course_id', $course->id)->update([
+            'is_completed' => false
+        ]);
         session()->flash('msg', 'تم إنشاء الدرس بنجاح');
         return to_route('instructor.courses.show', $course->id);
     }
@@ -93,7 +118,7 @@ class LessonController extends Controller
         $dir = $lesson->directory;
         $course = $dir->course;
         $validated = array_filter($request->validated());
-        dd($validated['questions']);
+
         if (isset($validated['video']) && strlen($validated['video']) > 0) {
             Storage::delete("courses/{$course->id}/{$dir->id}/{$lesson->video}");
             $videoFileLocation = Storage::putFile(
@@ -104,6 +129,26 @@ class LessonController extends Controller
             Storage::deleteDirectory($video['dirname']);
             $validated['video'] = ltrim($videoFileLocation, "courses/{$course->id}/{$dir->id}/");
         }
+
+        if (isset($request->attachment)) {
+            $attachmentInfo = pathinfo(Storage::path($request->validated()['attachment']));
+            $attachmentFileLocation = Storage::putFile(
+                path: 'courses/' . $course->id . '/' . $dir->id,
+                file: new File(Storage::path($request->validated()['attachment'])),
+            );
+            $attachment  = $lesson->attachment;
+            if (isset($attachment)) {
+                $attachment->delete();
+                Storage::delete("courses/{$course->id}/{$dir->id}/{$attachment->path}");
+            }
+            $lesson->attachment()->create([
+                'name' => $attachmentInfo['basename'],
+                'path' => ltrim($attachmentFileLocation, "courses/{$course->id}/ $dir->id/")
+            ]);
+            Storage::deleteDirectory(rtrim($request->validated()['attachment'], $attachmentInfo['basename'] . DIRECTORY_SEPARATOR));
+        }
+
+
         $lesson->update($validated);
         session()->flash('msg', 'تم تعديل الدرس بنجاح');
         return to_route('instructor.lessons.show', $lesson);
@@ -119,8 +164,10 @@ class LessonController extends Controller
     {
         abort_if(auth()->guard('instructor')->user()->id != $lesson->directory->course->instructor_id, 403);
         $directory = $lesson->directory;
+        $attachment = $lesson->attachment->path;
         $lesson->delete();
         Storage::delete("courses/{$directory->course_id}/{$directory->id}/{$lesson->video}");
+        Storage::delete("courses/{$directory->course_id}/{$directory->id}/{$attachment}");
         session()->flash('msg', 'تم حذف الدرس بنجاح');
         return to_route('instructor.courses.show', $directory->course);
     }

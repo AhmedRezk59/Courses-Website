@@ -27,8 +27,8 @@ class ProfileController extends Controller
         ];
         if (isset($request->avatar)) {
             $data['avatar'] = $request->file('avatar')->hashName();
-            $request->file('avatar')->storeAs('avatars/instructors/' . auth()->guard('instructor')->user()->id . '/', $request->file('avatar')->hashName());
-            $path = Storage::path('avatars/instructors/' . auth()->guard('instructor')->user()->id . '/', auth()->guard()->user()->avatar);
+            $request->file('avatar')->store('avatars/instructors/' . auth()->guard('instructor')->user()->id . '/');
+            $path = 'avatars/instructors/' . auth()->guard('instructor')->user()->id . '/' . auth()->guard('instructor')->user()->avatar;
             if(Storage::exists($path)){
                 Storage::delete($path);
             }

@@ -20,8 +20,8 @@
         <div class="row">
             <div class="form-group col-12">
                 <label for="exampleInputEmail1">قسم المادة</label>
-                <select class="form-control" required value="{{ $course->department }}"
-                    id="exampleInputEmail1" name="department_id" placeholder="اختر قسم المادة">
+                <select class="form-control" required value="{{ $course->department }}" id="exampleInputEmail1"
+                    name="department_id" placeholder="اختر قسم المادة">
                     <option disabled value="">من فضلك اختر قسم المادة</option>
                     @foreach ($departments as $d)
                         <option @selected($course->department->id == $d->id) value="{{ $d->id }}">{{ $d->name }}</option>
@@ -191,7 +191,7 @@
                 <div class="card-body pad">
                     <div class="mb-3">
                         <label for="references">المراجع</label>
-                        <textarea class="" id="references" name="references" placeholder="يمكنك كتابةالمراجع هنا..." required
+                        <textarea class="textarea" id="references" name="references" placeholder="يمكنك كتابةالمراجع هنا..." required
                             id="references"
                             style="width: 100%; height: 200px; font-size: 18px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $course->references }}</textarea>
                         <x-input-error :messages="$errors->get('references')" class="mt-2 text-danger text-bold" />
@@ -229,5 +229,19 @@
                 },
             });
         });
+    </script>
+
+    <script>
+        $("input[name='is_paid']").change(function() {
+            var buttonVal = $(this).val();
+            if(buttonVal == 1){
+                $('input[name="price"]').val({{ $course->price }})
+                $('input[name="discount_price"]').val({{ $course->discount_price }})
+            }else {
+                $('input[name="price"]').val(null)
+                $('input[name="discount_price"]').val(null)
+                $('input[name="end_discount_date"]').val(null)
+            }
+        })
     </script>
 @endsection

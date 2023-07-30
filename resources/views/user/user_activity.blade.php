@@ -11,17 +11,20 @@
     <!-- <div class="reports-content">
 </div> -->
 
-
+@php
+    $lessons = $course->lessons()->get();
+   $completed_lessons = DB::table('lesson_user')->select('lesson_id')->where('user_id' , auth()->user()->id)->whereIn('lesson_id' , $lessons->pluck('id'))->get(); 
+@endphp
     <div class="container-fluid report-section">
         <h5><i class="site-icons icon-eye-4"></i>ملخص اﻷنشطة</h5>
         <div class="row">
             <div class="col-6 lecture-stats">
                 <div class="subject-progress">
-                    <span class="circular-chart chart-selector" id="lectures_seen_chart" data-percent="{{DB::table('course_user')->where('course_id' ,$course->id)->where('user_id' , auth()->user()->id)->first()->last_completed_lesson != 0 ?DB::table('course_user')->where('course_id' ,$course->id)->where('user_id' , auth()->user()->id)->first()->last_completed_lesson/$course->lessons->count()*100 : 0}}"> <span
-                            class="percent">{{DB::table('course_user')->where('course_id' ,$course->id)->where('user_id' , auth()->user()->id)->first()->last_completed_lesson != 0 ?DB::table('course_user')->where('course_id' ,$course->id)->where('user_id' , auth()->user()->id)->first()->last_completed_lesson/$course->lessons->count()*100 : 0}}</span> </span>
+                    <span class="circular-chart chart-selector" id="lectures_seen_chart" data-percent="{{round($completed_lessons->count() / $lessons->count() * 100) ?? 0}}"> <span
+                            class="percent">{{round($completed_lessons->count() / $lessons->count() * 100) ?? 0}}</span> </span>
                 </div>
-                <p>شاهد <strong><a href="#lectures_seen" data-turbolinks="false">{{DB::table('course_user')->where('course_id' ,$course->id)->where('user_id' , auth()->user()->id)->first()->last_completed_lesson ?? 0}} محتوى</a></strong> من
-                    <strong>{{$course->lessons->count()}}</strong>
+                <p>شاهدت <strong class="text-primary">{{$completed_lessons->count() ?? 0}} محتوى</strong> من
+                    <strong class="text-primary">{{$lessons->count()}}</strong>
                 </p>
                
             </div>

@@ -1,8 +1,10 @@
    @php
-       $data = DB::table('website_settings')->first();
+       $data = DB::table('website_settings')
+           ->select(['contact_mail', 'twitter', 'facebook', 'youtube', 'instagram'])
+           ->first();
    @endphp
-   @if (isset($data))
 
+   @if (!collect($data)->filter()->isEmpty())
        <div class="social-contact col-md-5 clearfix">
            <span>لنكُن على تواصل</span>
            <ul class="clearfix" style="list-style: none">

@@ -30,6 +30,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>{{ $user->name }} - {{ config('app.name') }}</title>
     <meta name="description" content="{{ config('app.name') }} - المنصة العربية للتعليم المفتوح">
+    <link rel="icon" type="image/x-icon" href="{{ asset('website-logo.jpeg') }}">
+
     <meta name="keywords"
         content="تعليم ,تدريس ,مواد ,مواد ,{{ config('app.name') }}, MOOC, online courses, online education, elearning">
 </head>
@@ -104,8 +106,7 @@
                                             @if (!isset($user->avatar))
                                                 <img src="{{ asset('default-logo.png') }}" style="display: inline;">
                                             @else
-                                                <img src="{{ route('get.avatar', $user) }}"
-                                                    style="display: inline;">
+                                                <img src="{{ route('get.avatar', $user) }}" style="display: inline;">
                                             @endif
                                         </div>
 
@@ -138,7 +139,7 @@
                                                             <a class="lecturer-photo col-md-4 p-0"
                                                                 href="{{ route('instructor.page', $course->instructor) }}">
                                                                 <img class="lecturer-dp img-fluid mx-2"
-                                                                    src="{{ isset($course->instructor->avatar) &&$course->instructor->avatar !== ''? route('instructor.avatar', $course->instructor) : asset('default-logo.png') }}"
+                                                                    src="{{ isset($course->instructor->avatar) && $course->instructor->avatar !== '' ? route('instructor.avatar', $course->instructor) : asset('default-logo.png') }}"
                                                                     style="display: inline;">
                                                             </a>
                                                             <div class="lecturer-data col-md-8 ">

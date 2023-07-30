@@ -14,6 +14,7 @@
     <meta property="og:title" content="دخول">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
+    <link rel="icon" type="image/x-icon" href="{{ asset('website-logo.jpeg') }}">
     <meta property="og:description" content="{{ config('app.name') }} - المنصة العربية للتعليم المفتوح">
 
     <link rel="stylesheet" media="screen"

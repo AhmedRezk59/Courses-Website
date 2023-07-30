@@ -10,6 +10,7 @@
 <!-- Added by HTTrack -->
 <meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<link rel="icon" type="image/x-icon" href="{{ asset('website-logo.jpeg') }}">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -323,7 +324,14 @@
                                                 {!! $course->outputs !!}
                                             </div>
                                         </div>
-
+                                        <div class="container-fluid subject-content-info info-item">
+                                            <div class="item-title">
+                                                <h5>المراجع</h5>
+                                            </div>
+                                            <div class="row-fluid">
+                                                {!! $course->references !!}
+                                            </div>
+                                        </div>
 
                                     </div>
                                 </div>

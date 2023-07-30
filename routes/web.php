@@ -36,7 +36,7 @@ Route::get('terms', function () {
 Route::middleware('auth')->group(function () {
 
     Route::controller(StreamController::class)->group(function () {
-
+        Route::get('attachment/{lesson}','getAttachment')->name('get.attachment');
         Route::get('get/video/{lesson}/lesson',  'getLessonForUser')->name('user.get.lesson');
     });
 
@@ -56,6 +56,7 @@ Route::middleware('auth')->group(function () {
     Route::get('settings', [SettingController::class, 'view'])->name('settings');
     Route::post('user/avatar/upload', [FileUploadController::class, 'upload_avatar'])->name('user.upload.avatar');
     Route::put('profile/update', [ProfileController::class, 'update'])->name('user.profile.update');
+    Route::get('/send/{course}/certificate', [CourseController::class, 'sendCourseCompletionCertificate'])->name('certificate');
 });
 
 Route::controller(CourseController::class)->name('courses.')->group(function () {

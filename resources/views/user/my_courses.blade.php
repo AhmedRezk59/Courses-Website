@@ -11,6 +11,7 @@
     <meta property="og:title" content="موادي ">
     <meta property="og:description" content="{{ config('app.name') }} - المنصة العربية للتعليم المفتوح">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <link rel="icon" type="image/x-icon" href="{{ asset('website-logo.jpeg') }}">
 
     <link rel="stylesheet" media="screen"
         href="/assets/organizations-6c972d2e136900c44de0779b806edff105f6c9ee069a368922dd7b8ffb4142fd.css">

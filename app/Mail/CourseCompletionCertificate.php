@@ -18,7 +18,7 @@ class CourseCompletionCertificate extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(public $user,public $course)
     {
         //
     }
@@ -43,7 +43,7 @@ class CourseCompletionCertificate extends Mailable
     public function content()
     {
         return new Content(
-            view: 'view.name',
+            view: 'user.emails.course_completion_certificate',
         );
     }
 

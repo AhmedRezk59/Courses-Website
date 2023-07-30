@@ -23,6 +23,7 @@ Route::prefix('instructor')->name('instructor.')->middleware(RedirectInstructorI
         Route::post('course/uplaod/video', 'upload_video')->name('course.upload');
         Route::post('course/uplaod/image', 'upload_image')->name('course.upload.image');
         Route::post('course/uplaod/lesson', 'upload_lesson')->name('course.upload.lesson');
+        Route::post('lesson/uplaod/attachment', 'upload_attachment')->name('lesson.upload.attachment');
     });
 
     Route::resource('courses', CourseController::class)->except(['index']);

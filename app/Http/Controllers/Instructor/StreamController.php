@@ -15,7 +15,7 @@ class StreamController extends Controller
 {
     public function getVideo(Course $course)
     {
-        abort_if($course->instructor_id !== auth()->guard('instructor')->user()->id, 403);
+        abort_if($course->instructor_id != auth()->guard('instructor')->user()->id, 403);
         $path = Storage::path("courses/{$course->id}/{$course->trailer}");
         if (file_exists($path)) {
             return response()->download($path, null, [], null);
@@ -28,7 +28,7 @@ class StreamController extends Controller
     {
         $dir = $lesson->directory;
         $course = $dir->course;
-        abort_if($course->instructor_id !== auth()->guard('instructor')->user()->id, 403);
+        abort_if($course->instructor_id != auth()->guard('instructor')->user()->id, 403);
         $path = Storage::path("courses/{$course->id}/{$dir->id}/{$lesson->video}");
         if (file_exists($path)) {
             return response()->download($path, null, [], null);
@@ -36,7 +36,7 @@ class StreamController extends Controller
             throw new FileNotFoundException('This file doesn\'t exist');
         }
     }
-    
+
     public function getLessonForUser(Lesson $lesson)
     {
         $dir = $lesson->directory;
@@ -51,7 +51,7 @@ class StreamController extends Controller
     }
     public function getImage(Course $course)
     {
-        abort_if($course->instructor_id !== auth()->guard('instructor')->user()->id, 403);
+        abort_if($course->instructor_id != auth()->guard('instructor')->user()->id, 403);
         $path = Storage::path("courses/{$course->id}/{$course->thumbinal}");
         if (file_exists($path)) {
             return response()->download($path, null, [], null);
@@ -104,7 +104,7 @@ class StreamController extends Controller
     public function getCourseTrailer(Course $course)
     {
         $path = Storage::path("courses/{$course->id}/{$course->trailer}");
-        
+
         if (file_exists($path)) {
             return response()->download($path, null, [], null);
         } else {
@@ -116,6 +116,18 @@ class StreamController extends Controller
         $path = Storage::path("courses/{$course->id}/{$course->thumbinal}");
         if (file_exists($path)) {
             return response()->download($path, null, [], null);
+        } else {
+            throw new FileNotFoundException('This file doesn\'t exist');
+        }
+    }
+
+    public function getAttachment(Lesson $lesson)
+    {
+        $dir = $lesson->directory;
+        abort_if(!auth()->user()->own($dir->course_id), 403);
+        $path = Storage::path("courses/{$dir->course_id}/{$dir->id}/{$lesson->attachment->path}");
+        if (file_exists($path)) {
+            return response()->download($path, $lesson->attachment->name);
         } else {
             throw new FileNotFoundException('This file doesn\'t exist');
         }

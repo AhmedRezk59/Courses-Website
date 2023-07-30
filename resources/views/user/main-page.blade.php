@@ -1,25 +1,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <script>
-        window.NREUM || (NREUM = {});
-        NREUM.info = {
-            "beacon": "bam.nr-data.net",
-            "errorBeacon": "bam.nr-data.net",
-            "licenseKey": "1ad55597d3",
-            "applicationID": "2536259",
-            "transactionName": "clhcFxdZCVRTSxgTBVZSQUwWXgpP",
-            "queueTime": 0,
-            "applicationTime": 288,
-            "agent": ""
-        }
-    </script>
+
     <meta name="description" content="{{ config('app.name') }}" />
     <meta name="keywords" content={{ config('app.name') }}">
     <meta property="og:title" content={{ config('app.name') }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="HandheldFriendly" content="true" />
     <meta name="apple-touch-fullscreen" content="yes" />
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <link rel="icon" type="image/x-icon" href="{{ asset('website-logo.jpeg') }}">
 
     <title>{{ config('app.name') }}</title>
     <!--[if lte IE 7]><script src="/assets/lte-ie7-ceb763da1bde4df6f6c0af5900157978077df0765e1cd426dd0d499f75bc0e6e.js"></script><![endif]-->
@@ -45,8 +33,11 @@
 
 <body id="homepage_content" class="home-page new">
     <!-- <div id="oneYearAnniv"></div> -->
-    <img class="home-bg"
-        src="https://arabic-mooc-staging.s3.amazonaws.com/uploads/rwaq_image_params/home_background.jpg" />
+    @php
+        $settings = DB::table('website_settings')->first();
+    @endphp
+    <img class="home-bg" src="{{ asset('background.jpg') }}" />
+
     <div class="home-page-wrapper">
         <!-- Cover begin -->
         <div class="rwaq-header">
@@ -92,7 +83,7 @@
                     <div class="col-xs-12 mx-4 mx-sm-auto">
                         <div class="intro clearfix">
                             <h1 class="intro-main-title text-dark">
-                                {{ config('app.name') }} - المنصة العربية للتعليم المفتوح
+                                {{ config('app.name') }}
                             </h1>
                             <p class="intro-sub-title text-dark h3">
                                 مواد أكاديمية مجانية باللغة العربية في شتى المجالات والتخصصات
@@ -101,7 +92,7 @@
                     </div>
                     <div class="col-sm-9 col">
                         <img class="hero-image img-fluid" style="display: inline;"
-                            src="https://arabic-mooc-staging.s3.amazonaws.com/uploads/rwaq_image_params/home.png" />
+                            src="{{ isset($settings->banner) ? asset('images/'.$settings->banner) : asset('banner.png') }}" />
                     </div>
 
                 </div>
@@ -124,7 +115,9 @@
 
                     <div class="courses-section-row" id="upcoming_courses">
                         <div class="courses-section-title clearfix">
-                            <h5 class="text-right">المواد المرتقبة</h5>
+                            <h5 class="text-right">
+                                {{ isset($settings->waited_lectures_name) ? $settings->waited_lectures_name : 'المواد المرتقبة' }}
+                            </h5>
                             <a title="تصفح المزيد من المواد المرتقبة" class="tool-tip"
                                 href="{{ route('courses.all') }}">المزيد . .</a>
                             <i></i>
@@ -195,7 +188,9 @@
                     </div> <!-- end "courses-section-row -->
                     <div class="courses-section-row">
                         <div class="courses-section-title clearfix">
-                            <h5 class="text-right">المواد الحالية</h5>
+                            <h5 class="text-right">
+                                {{ isset($settings->current_lectures_name) ? $settings->current_lectures_name : 'المواد الحالية' }}
+                            </h5>
                             <a title="تصفح المزيد من المواد الحالية" class="tool-tip"
                                 href="{{ route('courses.all') }}">المزيد . .</a>
                             <i></i>
@@ -225,8 +220,7 @@
                                                             src="{{ isset($course->instructor->avatar) && $course->instructor->avatar != '' ? route('instructor.avatar', $course->instructor) : asset('default-logo.png') }}">
                                                     </a>
                                                     <div class="lecturer-data text-center">
-                                                        <a
-                                                            href="{{ route('instructor.page', $course->instructor) }}">
+                                                        <a href="{{ route('instructor.page', $course->instructor) }}">
                                                             <span>{{ $course->instructor->name }}</span>
                                                         </a>
                                                     </div>
@@ -279,11 +273,10 @@
                         <div class='col-lg-3 col-md-3 col-sm-6 col-xs-12'>
                             <div class='item clearfix'>
                                 <div class='top'>
-                                    <img src='/assets/home/clapboard.png' loading='lazy' />
+                                    <img src='{{ isset($settings->seen_lectures_image) ? asset('images/' . $settings->seen_lectures_image) : asset('assets/home/clapboard.png') }}'
+                                        loading='lazy' />
                                     <div class='desc text-dark'>
-                                        نعتني بأدق التفاصيل وقت التسجيل مع المحاضرين لتكون المواد المصورة ذات جودة عالية
-                                        تشجع الطالب على المشاهدة والمواصلة. كل محاضرة تخضع للمونتاج الاحترافي، ويتم
-                                        نشرها على شكل عدد من المقاطع القصيرة لأجل التسهيل على الطالب المتابعة والتركيز.
+                                        {{ $settings->seen_lectures }}
                                     </div>
                                 </div>
                                 <h3 class='sub-title text-dark'>محاضرات مرئية</h3>
@@ -293,12 +286,11 @@
                         <div class='col-lg-3 col-md-3 col-sm-6 col-xs-12'>
                             <div class='item clearfix'>
                                 <div class='top'>
-                                    <img src='/assets/home/calculator.png' loading='lazy' />
+                                    <img src='{{ isset($settings->training_image) ? asset('images/' . $settings->training_image) : asset('assets/home/calculator.png') }}'
+                                        loading='lazy' />
                                     <div class='desc text-dark'>
-                                        للتأكد من استيعاب الطالب لمضمون المحاضرات، سيجد تمارين تفاعلية تحتوي على
-                                        سؤال/أسئلة تدور حول المقطع مع تصحيح فوري لإجاباته. بالإضافة إلى التمارين
-                                        التفاعلية، هناك واجبات ومهام أسبوعية يقوم بتهيئتها المحاضر أو فريق عمل المحتوى
-                                        وتشكل نسبة من درجة النجاح في المادة بالإضافة إلى الاختبار النهائي.
+                                        {{ $settings->training }}
+
                                     </div>
                                 </div>
                                 <h3 class='sub-title text-dark'>تمارين تفاعلية</h3>
@@ -308,11 +300,11 @@
                         <div class='col-lg-3 col-md-3 col-sm-6 col-xs-12'>
                             <div class='item clearfix'>
                                 <div class='top'>
-                                    <img src='/assets/home/ribbon.png' loading='lazy' />
+                                    <img src='{{ isset($settings->certificates_image) ? asset('images/' . $settings->certificates_image) : asset('assets/home/ribbon.png') }}'
+                                        loading='lazy' />
                                     <div class='desc text-dark'>
-                                        بعض المواد سيُمنح للطالب المنضم لها شهادة إكمال بعد تجاوزه الاختبار النهائي.
-                                        نأمل مع مرور الوقت في المستقبل القريب عقد اتفاقية مع جهة أكاديمية للإشراف ومنح
-                                        الشهادات بإسمها.
+                                        {{ $settings->certificates }}
+
                                     </div>
                                 </div>
                                 <h3 class='sub-title text-dark'>شهادات إكمال</h3>
@@ -322,11 +314,11 @@
                         <div class='col-lg-3 col-md-3 col-sm-6 col-xs-12'>
                             <div class='item clearfix'>
                                 <div class='top'>
-                                    <img src='/assets/home/colorwheel.png' loading='lazy' />
+                                    <img src='{{ isset($settings->community_image) ? asset('images/' . $settings->community_image) : asset('assets/home/colorwheel.png') }}'
+                                        loading='lazy' />
                                     <div class='desc text-dark'>
-                                        لقاء دوري مباشر مع المحاضر يجيب فيه على أسئلة الطلاب، كما أنه في صفحة كل مقطع من
-                                        كل محاضرة سيجد الطالب مكان للسؤال والمناقشة مع المدرس والطلاب الآخرين حول مضمون
-                                        المقطع.إضافة إلى ذلك يوجد قسم للمناقشات العامة حول المادة.
+                                        {{ $settings->community }}
+
                                     </div>
                                 </div>
                                 <h3 class='sub-title text-dark'>مجتمع تعليمي</h3>
@@ -346,15 +338,12 @@
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <div class="row item text-right">
                                 <div class="col-3 px-1">
-                                    <img class="img-fluid" src="https://www.rwaq.org//grey.gif"
-                                        data-original="/assets/home/profle-7fc36db536b83e9d1c332c70d7ef85c3ff44e863d5db85ad4bba32155c19c25b.png">
+                                    <img class="img-fluid"
+                                        data-original="{{ isset($settings->student_image) ? asset('images/' . $settings->student_image) : asset('assets/home/profle-7fc36db536b83e9d1c332c70d7ef85c3ff44e863d5db85ad4bba32155c19c25b.png') }}">
                                 </div>
                                 <div class="col-9">
                                     <h3 class="sub-title text-light"> الطالب الجامعي</h3>
-                                    <p class="text-light">تنمية وزيادة حصيلته المعرفية في مجال تخصصه الدراسي بالانضمام
-                                        لمواد ذات علاقة بما يدرسه في الجامعة، ويدرّسها عبر {{ config('app.name') }}
-                                        مجاناً نخب أكاديمية
-                                        عربية متميزة</p>
+                                    <p class="text-light">{{ $settings->student }}</p>
                                 </div>
                             </div>
                         </div>
@@ -363,12 +352,11 @@
                             <div class="row item text-right">
                                 <div class="col-3 px-1">
                                     <img class="img-fluid" src="https://www.rwaq.org//grey.gif"
-                                        data-original="/assets/home/briefcase-c57dd45a7db81a6284c3318ba9925e4bbb075f1921a429534efcd7905dd0c486.png">
+                                        data-original="{{ isset($settings->employee_image) ? asset('images/' . $settings->employee_image) : asset('assets/home/briefcase-c57dd45a7db81a6284c3318ba9925e4bbb075f1921a429534efcd7905dd0c486.png') }}">
                                 </div>
                                 <div class="col-9">
                                     <h3 class="sub-title text-light">الموظف /العامل</h3>
-                                    <p class="text-light">في وقت فراغه بإمكانه دراسة مواد تساعده في تطوير ذاته في مجال
-                                        عمله وتخصصه الحالي أو حتى في مجال آخر يرغب في اكتساب مهارات جديدة فيه.</p>
+                                    <p class="text-light">{{ $settings->employee }}</p>
                                 </div>
                             </div>
                         </div>
@@ -377,13 +365,11 @@
                             <div class="row item text-right">
                                 <div class="col-3 px-1">
                                     <img class="img-fluid" src="https://www.rwaq.org//grey.gif"
-                                        data-original="/assets/home/key-d12afb608c20c9f75a5f03fb018326d99e96fa7c249d16de64f3b31a2b055c1a.png">
+                                        data-original="{{ isset($settings->job_searcher_image) ? asset('images/' . $settings->job_searcher_image) : asset('assets/home/key-d12afb608c20c9f75a5f03fb018326d99e96fa7c249d16de64f3b31a2b055c1a.png') }}">
                                 </div>
                                 <div class="col-9">
                                     <h3 class="sub-title text-light">الباحث عن العمل</h3>
-                                    <p class="text-light">لديه الكثير من الوقت وبعض الفضول الإيجابي، ربما تعلّم شيء
-                                        جديد في تخصص معين يثير اهتمامه ويساعده في تطوير مهاراته، ويفتح له آفاق جديدة
-                                        للدخول في الحياة العملية.</p>
+                                    <p class="text-light">{{ $settings->job_searcher }}</p>
                                 </div>
                             </div>
                         </div>
@@ -392,13 +378,11 @@
                             <div class="row item text-right">
                                 <div class="col-3 px-1">">
                                     <img class="img-fluid" src="https://www.rwaq.org//grey.gif"
-                                        data-original="/assets/home/booklet-a97174de7703e71a89d481c285f3b01da8f1fbb06ca9a7ffe8cdbf505c1aa8fc.png">
+                                        data-original="{{ isset($settings->knowledge_seeker_image) ? asset('images/' . $settings->knowledge_seeker_image) : asset('assets/home/booklet-a97174de7703e71a89d481c285f3b01da8f1fbb06ca9a7ffe8cdbf505c1aa8fc.png') }}">
                                 </div>
                                 <div class="col-9">
                                     <h3 class="sub-title text-light">الباحث عن المعرفة</h3>
-                                    <p class="text-light">يستمتع بالتعلم والاستزادة المعرفية لذاتها، لديه فضول استكشاف
-                                        معرفي في تخصصه العملي أو حتى تخصص جديد لا يعمل فيه ولم يدرسه في الجامعة من قبل،
-                                        يسعى للعلم ويبحث عن المعرفة لذاتها ولملئ فضوله ونهمه.</p>
+                                    <p class="text-light">{{ $settings->knowledge_seeker }}</p>
                                 </div>
                             </div>
                         </div>

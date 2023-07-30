@@ -1,7 +1,6 @@
 <?php
 
-use App\Models\Course;
-use App\Models\User;
+use App\Models\Lesson;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,11 +14,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('course_user', function (Blueprint $table) {
+        Schema::create('attachments', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Course::class)->constrained();
-            $table->boolean('is_completed')->default(false);
+            $table->string('name');
+            $table->string('path');
+            $table->foreignIdFor(Lesson::class)->cascadeOnDelete()->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_course');
+        Schema::dropIfExists('attachments');
     }
 };

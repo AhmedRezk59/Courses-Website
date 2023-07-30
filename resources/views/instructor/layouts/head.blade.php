@@ -33,7 +33,9 @@
     <link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.2.1/css/bootstrap.min.css">
     <!-- Custom style for RTL -->
     <link rel="stylesheet" href="{{ asset('backend/dist/css/custom.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{asset('website-logo.jpeg')}}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
     <style>
         .note-editable ul {
             list-style: disc !important;

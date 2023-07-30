@@ -172,7 +172,7 @@
                 <div class="card-body pad">
                     <div class="mb-3">
                         <label for="references">المراجع</label>
-                        <textarea class="" id="references" name="references" placeholder="يمكنك كتابةالمراجع هنا..." required
+                        <textarea class="textarea" id="references" name="references" placeholder="يمكنك كتابةالمراجع هنا..." required
                             id="references"
                             style="width: 100%; height: 200px; font-size: 18px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ old('references') }}</textarea>
                         <x-input-error :messages="$errors->get('references')" class="mt-2 text-danger text-bold" />
@@ -220,5 +220,15 @@
                 },
             });
         });
+    </script>
+    <script>
+        $("input[name='is_paid']").change(function() {
+            var buttonVal = $(this).val();
+            if(buttonVal == 0){
+                $('input[name="price"]').val(null)
+                $('input[name="discount_price"]').val(null)
+                $('input[name="end_discount_date"]').val(null)
+            }
+        })
     </script>
 @endsection

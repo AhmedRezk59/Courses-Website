@@ -9,10 +9,19 @@
             {{ $message }}
         </p>
     @enderror
-     
+    @if (session()->has('error'))
+        <p class="text-danger text-bold">
+            {{ session('error') }}
+        </p>
+    @endif
+
     @foreach (range(0, $noq - 1) as $index)
         <div class="col-12  mt-3">
-            <label for="">السؤال {{ $index + 1 }}</label>
+            <div class="flex flex-row justify-content-center align-items-center my-4">
+                <label for="">السؤال {{ $index + 1 }}</label>
+                <button class="btn btn-danger bg-danger mr-3" wire:click="removeQuestion({{ $index }})"
+                    type="button">حذف سؤال</button>
+            </div>
             <div class="flex flex-row">
                 <label for="">عنوان السؤال</label>
                 <input type="text" class="form-control" name="questions[{{ $index }}][body]"

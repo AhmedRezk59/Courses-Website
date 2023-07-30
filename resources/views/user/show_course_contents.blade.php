@@ -16,6 +16,7 @@
     <link rel="stylesheet" media="all"
         href="/assets/application-b6d07872d2ff763651a4ccec6b8667d8e06bac3fd96f1396300197749ed51f39.css">
     <!--[if IE 8]><link rel="stylesheet" media="all" href="/assets/ie-139291a5bb4ab2173e95e9b5bc0d5fb882d845cdaf4ce46db9aff762d93c5bde.css" /><![endif]-->
+    <link rel="icon" type="image/x-icon" href="{{ asset('website-logo.jpeg') }}">
 
 
     <!--[if lte IE 7]><script src="/assets/lte-ie7-ceb763da1bde4df6f6c0af5900157978077df0765e1cd426dd0d499f75bc0e6e.js"></script><![endif]-->
@@ -68,10 +69,7 @@
                             <!-- <strong>:</strong> -->
                             <div class="send-instructor">
                                 <p>
-                                    <a href="{{ route('instructor.page', $course->instructor) }}"><i
-                                            class="icon-envelope site-icons tool-tip" title=""
-                                            href="{{ route('instructor.page', $course->instructor) }}"
-                                            data-original-title="راسل المحاضر"></i></a>&nbsp;
+                                    
                                     <a
                                         href="{{ route('instructor.page', $course->instructor) }}">{{ $course->instructor->name }}</a>
                                 </p>
@@ -81,8 +79,7 @@
                         <p class="subject-date">
                             {{ $course->date_from_to }}
                         </p>
-                        <div class="cover-actions-container">
-                        </div>
+                       
                     </div>
                 </div>
 
@@ -94,200 +91,7 @@
         </div>
     </div>
 
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script>
-        $(function() {
-            $('a.disabled-links').attr('href', 'javascript:void(0)')
-            $('form.disabled-links input:submit').attr('disabled', 'true')
-        });
-    </script>
-    <script src="/assets/jquery-ui/accordion-32228d165e0cb045646cab62fcafa105485f700c438f0876dcf4145656514b87.js"></script>
-    <script>
-        $('a.disabled-links').attr('href', 'javascript:void(0)')
-        $('a.disabled-links').attr('data-confirm', '')
-        $('form.disabled-links input:submit').attr('disabled', 'true')
-        $('form.disabled-links input:submit').attr('data-confirm', '')
-    </script>
-    <script src="/assets/jquery-ui/accordion-32228d165e0cb045646cab62fcafa105485f700c438f0876dcf4145656514b87.js"></script>
-    <script>
-        $('a.disabled-links').attr('href', 'javascript:void(0)')
-        $('form.disabled-links input:submit').attr('disabled', 'true')
-    </script>
-
-
+   
 
 
 
