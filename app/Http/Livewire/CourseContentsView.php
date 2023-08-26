@@ -10,6 +10,8 @@ class CourseContentsView extends Component
 
     public function render()
     {
-        return view('user.livewire.course-contents-view');
+        return view('user.livewire.course-contents-view',[
+            'questions' => $this->course->questions
+        ]);
     }
 }

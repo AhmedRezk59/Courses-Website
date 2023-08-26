@@ -23,6 +23,27 @@ class StreamController extends Controller
             throw new FileNotFoundException('This file doesn\'t exist');
         }
     }
+      public function getVideoForAdmin(Course $course)
+    {
+        abort_if(! auth()->guard('admin')->check(), 403);
+        $path = Storage::path("courses/{$course->id}/{$course->trailer}");
+        if (file_exists($path)) {
+            return response()->download($path, null, [], null);
+        } else {
+            throw new FileNotFoundException('This file doesn\'t exist');
+        }
+    }
+
+    public function getImageForAdmin(Course $course)
+    {
+        abort_if(!auth()->guard('admin')->check(), 403);
+        $path = Storage::path("courses/{$course->id}/{$course->thumbinal}");
+        if (file_exists($path)) {
+            return response()->download($path, null, [], null);
+        } else {
+            throw new FileNotFoundException('This file doesn\'t exist');
+        }
+    }
 
     public function getLesson(Lesson $lesson)
     {

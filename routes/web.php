@@ -62,6 +62,7 @@ Route::middleware('auth')->group(function () {
 Route::controller(CourseController::class)->name('courses.')->group(function () {
     Route::get('courses', 'index')->name('all');
     Route::get('courses/{course}/show', 'show')->name('show');
+    Route::get('courses/{course}/final/quiz', 'quiz')->name('quiz.final');
 });
 Route::controller(UserController::class)->group(function () {
     Route::get('user/page/{user?}', 'userPage')->name('user.page');

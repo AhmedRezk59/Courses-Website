@@ -103,13 +103,20 @@ class JoinCourseController extends Controller
         $payment = new PaymobPayment();
         $arr = $payment->verify($request);
         if ($arr['success'] == true) {
-            $payment = Payment::where('order_id', $arr['payment_id'])->first();
-            $payment->is_successful = true;
-            $payment->save();
-            DB::table('course_user')->insert([
-                'user_id' => $payment->user_id,
-                'course_id' => $payment->course_id
-            ]);
+            try {
+                DB::beginTransaction();
+                $payment = Payment::where('order_id', $arr['payment_id'])->first();
+                $payment->is_successful = true;
+                $payment->save();
+                DB::table('course_user')->insert([
+                    'user_id' => $payment->user_id,
+                    'course_id' => $payment->course_id
+                ]);
+                DB::commit();
+            } catch (\Throwable $th) {
+                DB::rollBack();
+            }
+           
             return to_route('courses.course.contents', $payment->course_id);
         } else{
             abort(403,'مف فضلك تأكد من صحة رقم الهاتف المحمول');

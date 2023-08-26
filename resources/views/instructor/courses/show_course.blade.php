@@ -7,6 +7,9 @@
             </a>
             <a href="{{ route('instructor.announcement.create', $course->id) }}" class="btn btn-primary">
                 إضافة تنويه
+            </a> 
+            <a href="{{ route('instructor.quiz.create', $course->id) }}" class="btn btn-primary">
+                الإختبار النهائى
             </a>
             @if (DB::table('course_user')->where('course_id', $course->id)->count() == 0)
                 <button type="button" data-course_id="{{ $course->id }}" wire:click="changeRoute({{ $course->id }})"

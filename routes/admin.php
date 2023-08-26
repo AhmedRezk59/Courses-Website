@@ -25,9 +25,14 @@ Route::prefix('admin')->name('admin.')->middleware(RedirectAdminIfNotAuthenticat
 
    Route::controller(CourseController::class)->name('courses.')->group(function () {
       Route::get('/course/{course}/show', 'show')->name('show');
+      Route::put('/course/{course}/update', 'update')->name('course.update');
       Route::post('/course/{course}/state/{state}', 'change')->name('change.state');
    });
-
+   Route::controller(StreamController::class)->group(function () {
+      Route::get('course/{course}/video', 'getVideoForAdmin')->name('play.video');
+      Route::get('course/{course}/image', 'getImageForAdmin')->name('get.thumbinal');
+      Route::get('get/lesson/{lesson}', 'getLessonForAdmin')->name('get.lesson');
+   });
    Route::controller(ProfileController::class)->group(function () {
       Route::get('profile', 'show')->name('profile');
       Route::put('profile/update', 'update')->name('profile.update');
@@ -42,5 +47,4 @@ Route::prefix('admin')->name('admin.')->middleware(RedirectAdminIfNotAuthenticat
    });
 
    Route::get('payments/index' , [PaymentController::class , 'index'])->name('payments.index');
-   Route::get('get/lesson/{lesson}', [StreamController::class, 'getLessonForAdmin'])->name('get.lesson');
 });

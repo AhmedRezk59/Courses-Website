@@ -4,20 +4,28 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\CourseStatus;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateCourseRequest;
 use App\Jobs\SendSubscribersNewCourseMail;
+use App\Mail\CourseDetailsGotModified;
 use App\Mail\SendNewCourseAdded;
 use App\Models\Course;
+use App\Models\Department;
 use App\Models\Subscriber;
+use App\Repositories\CourseRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
+    public function __construct(private CourseRepository $courseRepository)
+    {
+    }
     public function show(Course $course)
     {
         abort_if($course->status === CourseStatus::REJECTED, 403, 'تم رفض المادة وحذفها');
-        return view('admin.show_course', ['course' => $course]);
+        $departments = Department::all();
+        return view('admin.show_course', ['course' => $course, 'departments' => $departments]);
     }
 
     public function change(Course $course, $status, Request $request)
@@ -34,5 +42,14 @@ class CourseController extends Controller
         }
 
         return back()->with('msg', 'تم تغيير حالة المادة بنجاح');
+    }
+
+    public function update(UpdateCourseRequest $request, Course $course)
+    {
+        $this->courseRepository->updateCourse($request->validated(), $course);
+        session()->flash('msg', 'تم تعديل المادة بنجاح');
+        Mail::to($course->instructor->email)->send(new CourseDetailsGotModified($course));
+        return redirect()
+            ->route('admin.courses.show', $course->id);
     }
 }

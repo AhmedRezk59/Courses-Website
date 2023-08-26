@@ -82,7 +82,6 @@ class CourseController extends Controller
      */
     public function update(UpdateCourseRequest $request, Course $course)
     {
-
         $this->courseRepository->updateCourse($request->validated(), $course);
         session()->flash('msg', 'تم تعديل المادة بنجاح');
         return redirect()

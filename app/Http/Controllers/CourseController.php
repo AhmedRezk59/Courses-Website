@@ -55,12 +55,27 @@ class CourseController extends Controller
         $first_lesson_id = $course->lessons()->first()->id;
         if ($first_lesson_id != $lesson->id && $lesson->id - $last_completed_lessons->max() > 1) {
             $nextLesson = $course->lessons->where('id', '>', $last_completed_lessons->max())->first();
-            
+
             session()->flash('failed', 'لابد أن تكمل الدروس وفقا للترتيب');
             return to_route('courses.lesson.view', $nextLesson->id);
         }
         $lesson->load('attachment');
         return view('user.lesson_show', compact('lesson', 'course'));
+    }
+
+    public function quiz(Course $course)
+    {
+        abort_if(!auth()->user()->own($course->id), 403);
+        $course_lessons = $course->lessons->pluck('id');
+        $completed_lessons = DB::table('lesson_user')->where('user_id', auth()->user()->id)
+            ->whereIn('lesson_id', $course_lessons)
+            ->pluck('lesson_id');
+        if ($course_lessons->count() != $completed_lessons->count()) {
+            session()->flash('failed', 'لابد أن تنهى جميع الدروس أولا');
+            return back();
+        }
+        $questions = $course->questions()->with('answers')->get();
+        return view('user.final_quiz', ['course' => $course, 'questions' => $questions]);
     }
 
     public function sendCourseCompletionCertificate(Course $course)
@@ -70,12 +85,11 @@ class CourseController extends Controller
             session()->flash('failed', 'لابد أن تنتهى الدورة أولا');
             return back();
         }
-        $course_lessons = $course->lessons->pluck('id');
-        $completed_lessons = DB::table('lesson_user')->where('user_id', auth()->user()->id)
-            ->whereIn('lesson_id', $course_lessons)
-            ->pluck('lesson_id');
-        if ($course_lessons->count() != $completed_lessons->count()) {
-            session()->flash('failed', 'لابد أن تنهى جميع الدروس أولا');
+        $course_user_status = DB::table('course_user')->where('user_id', auth()->user()->id)
+            ->where('course_id', $course->id)
+            ->value('is_completed');
+        if ($course_user_status  != true) {
+            session()->flash('failed', 'لابد أن تنهى جميع الدروس والاختبار النهائى أولا');
             return back();
         }
         Mail::to(auth()->user())->send(new CourseCompletionCertificate(auth()->user(), $course));

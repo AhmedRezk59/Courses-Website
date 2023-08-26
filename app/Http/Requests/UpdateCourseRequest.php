@@ -29,7 +29,7 @@ class UpdateCourseRequest extends FormRequest
             'trailer' => ['sometimes', 'nullable', 'string'],
             'thumbinal' => ['sometimes', 'nullable', 'string'],
             'is_paid' => ['required', 'boolean'],
-            'price' => ['required_if:is_paid,true', 'sometimes', 'nullable', 'numeric', 'digits_between:2,7'],
+            'price' => ['required_if:is_paid,1', 'sometimes', 'nullable', 'numeric', 'digits_between:2,7'],
             'discount_price' => ['sometimes', 'nullable', 'numeric', 'digits_between:2,7'],
             'end_discount_date' => ['required_with:discount_price', 'sometimes', 'nullable', 'date', 'after:' . date('Y-m-d')],
             'start_date' => ['required', 'date'],

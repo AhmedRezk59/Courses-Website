@@ -87,7 +87,10 @@ class Course extends Model
     {
         return $this->hasManyThrough(Lesson::class, Directory::class);
     }
-
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
     public function payments()
     {
         return $this->hasMany(Payment::class);

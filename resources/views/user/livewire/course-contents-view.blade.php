@@ -35,6 +35,9 @@
                   </ul>
               </li>
           @endforeach
+          @if ($questions->count() > 0)
+             <a href="{{route('courses.quiz.final' , $course)}}" class="mb-3 btn btn-primary bg-primary">الاختبار النهائى</a>
+          @endif
               <form action="{{ route('certificate', $course) }}" method="get">
                 <button class="btn btn-primary bg-primary" type="submit">
         الحصول على الشهادة

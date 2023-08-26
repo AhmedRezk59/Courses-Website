@@ -11,7 +11,7 @@ class CourseRepository
 {
     public function updateCourse($request, Course $course)
     {
-        $validated = array_filter($request, fn ($i) => $i !== null);
+        $validated = $request;
         $paths = [];
 
         if (isset($validated['trailer']) && strlen($validated['trailer']) > 0) {
@@ -23,6 +23,8 @@ class CourseRepository
             $video = pathinfo($validated['trailer']);
             Storage::deleteDirectory($video['dirname']);
             $paths['trailer'] = ltrim($videoFileLocation , "courses/{$course->id}/");
+        }else{
+            unset($validated['trailer']);
         }
 
         if (isset($validated['thumbinal']) && strlen($validated['thumbinal']) > 0) {
@@ -37,6 +39,8 @@ class CourseRepository
 
             Storage::deleteDirectory($image['dirname']);
             $paths['thumbinal'] = $image['basename'];
+        } else {
+            unset($validated['thumbinal']);
         }
 
         if (count($paths) > 0) {

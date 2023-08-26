@@ -8,6 +8,7 @@ use App\Http\Controllers\Instructor\DashboardController;
 use App\Http\Controllers\Instructor\FileUploadController;
 use App\Http\Controllers\Instructor\LessonController;
 use App\Http\Controllers\Instructor\ProfileController;
+use App\Http\Controllers\Instructor\QuizController;
 use App\Http\Controllers\Instructor\StreamController;
 use App\Http\Middleware\RedirectInstructorIfNotAuthenticated;
 use Illuminate\Support\Facades\Route;
@@ -49,7 +50,7 @@ Route::prefix('instructor')->name('instructor.')->middleware(RedirectInstructorI
         Route::get('course/{lesson}/lesson', 'getLesson')->name('get.lesson');
     });
     Route::controller(AnnouncementController::class)->group(function () {
-        Route::get('announcement/create/{course}','create')->name('announcement.create');
+        Route::get('announcement/create/{course}', 'create')->name('announcement.create');
         Route::post('announcement/{course}/store', 'store')->name('announcement.store');
     });
     Route::controller(CommentController::class)->group(function () {
@@ -57,4 +58,5 @@ Route::prefix('instructor')->name('instructor.')->middleware(RedirectInstructorI
         Route::get('comments/{comment}/show', 'show')->name('comments.show');
         Route::post('comments/{comment}/add', 'add')->name('add.comment');
     });
+    Route::get('quiz/{course}/create', [QuizController::class, 'create'])->name('quiz.create');
 });
